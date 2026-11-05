@@ -46,8 +46,9 @@ function start(m){mode=m;Q=sh(pool());const n=+$('#cnt').value||20;Q=Q.slice(0,n
  if(m!='card'&&Q.length<1)return;i=0;sc=0;bad=[];show();}
 function head(){return `<div class="bar"><i style="width:${i/Q.length*100}%"></i></div><small>${i+1} / ${Q.length}${mode!='card'?' · 점수 '+sc:''}</small>`}
 function show(){if(i>=Q.length)return result();const w=Q[i];
- if(mode=='card'){app.innerHTML=`<div class="card">${head()}<div class="fc card" onclick="this.dataset.f=1;this.innerHTML='<div class=big>'+${JSON.stringify(esc(w[2]))}+'</div>'"><div class="big">${esc(w[0])}</div><small>${posName[w[1]]||''} · 클릭해서 뜻 확인</small></div>
- <div class="row" style="justify-content:center"><button class="g" onclick="i++;show()">알아요 ✅</button><button class="r" onclick="mark(Q[i]);i++;show()">몰라요 ❌</button></div><button class="s" onclick="home()">그만하기</button></div>`;return}
+ if(mode=='card'){app.innerHTML=`<div class="card">${head()}<div class="fc card" id="fcard"><div class="big">${esc(w[0])}</div><small>${posName[w[1]]||''} · 클릭해서 뜻 확인</small></div>
+ <div class="row" style="justify-content:center"><button class="g" onclick="i++;show()">알아요 ✅</button><button class="r" onclick="mark(Q[i]);i++;show()">몰라요 ❌</button></div><button class="s" onclick="home()">그만하기</button></div>`;
+  let sh2=false;$('#fcard').onclick=()=>{sh2=!sh2;$('#fcard').innerHTML=sh2?'<div class="big">'+esc(w[2])+'</div><small>'+esc(w[0])+' · 다시 클릭하면 단어</small>':'<div class="big">'+esc(w[0])+'</div><small>'+(posName[w[1]]||'')+' · 클릭해서 뜻 확인</small>'};return}
  if(mode=='type'){app.innerHTML=`<div class="card">${head()}<div class="big">${esc(w[2])}</div><div class="mid"><small>${posName[w[1]]||''} · ${w[0].length}글자</small></div>
  <input type="text" id="ans" autocomplete="off" autocapitalize="off" placeholder="영어 단어를 입력" onkeydown="if(event.key=='Enter')chk()"><p id="fb" class="mid"></p><button onclick="chk()" id="cb">확인</button><button class="s" onclick="home()">그만하기</button></div>`;$('#ans').focus();return}
  const e2k=mode=='mc1';const all=[].concat(...Object.values(DATA));
